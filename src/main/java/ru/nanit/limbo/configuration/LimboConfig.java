@@ -34,6 +34,11 @@ public final class LimboConfig {
     private int bossGroupSize;
     private int workerGroupSize;
 
+    private boolean enabledResourcePack;
+    private String resourcePackURL;
+    private String resourcePackHash;
+    private String declinedKickMessage;
+
     public LimboConfig(Path root){
         this.root = root;
     }
@@ -67,6 +72,11 @@ public final class LimboConfig {
         useEpoll = conf.getNode("netty", "useEpoll").getBoolean(true);
         bossGroupSize = conf.getNode("netty", "threads", "bossGroup").getInt(1);
         workerGroupSize = conf.getNode("netty", "threads", "workerGroup").getInt(4);
+        
+        enabledResourcePack = conf.getNode("resourcePack", "enabled").getBoolean(false);
+        resourcePackURL = conf.getNode("resourcePack", "url").getString("");
+        resourcePackHash = conf.getNode("resourcePack", "hash").getString("");
+        declinedKickMessage = conf.getNode("resourcePack", "declinedKickMessage").getString("");
     }
 
     public SocketAddress getAddress() {
@@ -132,4 +142,21 @@ public final class LimboConfig {
     public int getWorkerGroupSize() {
         return workerGroupSize;
     }
+
+    public boolean isEnabledResourcePack() {
+        return enabledResourcePack;
+    }
+
+    public String getResourcePackURL() {
+        return resourcePackURL;
+    }
+
+    public String getResourcePackHash() {
+        return resourcePackHash;
+    }
+
+    public String getDeclinedKickMessage() {
+        return declinedKickMessage;
+    }
+    
 }

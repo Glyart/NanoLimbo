@@ -74,3 +74,10 @@ netty:
   threads:
     bossGroup: 1
     workerGroup: 4
+    
+resourcePack:
+  enabled: false
+  url: ''
+  hash: ''
+  declinedKickMessage: '{"text": "You''ve to accept the resource pack to enter this server.", "color": "red"}'
+  

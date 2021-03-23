@@ -42,6 +42,7 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
     private static PreRenderedPacket PACKET_PLAYER_POS;
     private static PreRenderedPacket PACKET_JOIN_MESSAGE;
     private static PreRenderedPacket PACKET_BOSS_BAR;
+    private static PreRenderedPacket PACKET_SEND_RESOURCE_PACK;
 
     private final LimboServer server;
     private final Channel channel;
@@ -175,6 +176,13 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
 
                 fireLoginSuccess();
             }
+            return;
+        }
+        
+        if (packet instanceof PacketResourcePackStatus) {
+            int status = ((PacketResourcePackStatus) packet).getStatus();
+            if (status != 0 && status != 3)
+                disconnectPlay(server.getConfig().getDeclinedKickMessage());
         }
     }
 
@@ -200,6 +208,9 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
 
         if (PACKET_JOIN_MESSAGE != null)
             writePacket(PACKET_JOIN_MESSAGE);
+        
+        if (PACKET_SEND_RESOURCE_PACK != null)
+            writePacket(PACKET_SEND_RESOURCE_PACK);
 
         sendKeepAlive();
     }
@@ -209,6 +220,14 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
             PacketDisconnect disconnect = new PacketDisconnect();
             disconnect.setReason(reason);
             sendPacketAndClose(disconnect);
+        }
+    }
+
+    public void disconnectPlay(String reason){
+        if (isConnected() && state == State.PLAY){
+            PacketPlayDisconnect disconnect = new PacketPlayDisconnect();
+            disconnect.setReason(reason);
+            sendPacket(disconnect);
         }
     }
 
@@ -338,6 +357,13 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
             bossBar.setBossBar(server.getConfig().getBossBar());
             bossBar.setUuid(UUID.randomUUID());
             PACKET_BOSS_BAR = PreRenderedPacket.of(bossBar);
+        }
+        
+        if (server.getConfig().isEnabledResourcePack()) {
+            PacketSendResourcePack resourcePack = new PacketSendResourcePack();
+            resourcePack.setUrl(server.getConfig().getResourcePackURL());
+            resourcePack.setHash(server.getConfig().getResourcePackHash());
+            PACKET_SEND_RESOURCE_PACK = PreRenderedPacket.of(resourcePack);
         }
     }
 }
