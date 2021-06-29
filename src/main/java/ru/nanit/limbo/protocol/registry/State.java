@@ -38,18 +38,18 @@ public enum State {
     },
     PLAY(3){
         {
-            serverBound.register(0x10, PacketKeepAlive::new);
+            serverBound.register(0x0F, PacketKeepAlive::new);
             serverBound.register(0x21, PacketResourcePackStatus::new);
-            clientBound.register(0x10, PacketDeclareCommands::new);
-            clientBound.register(0x24, PacketJoinGame::new);
-            clientBound.register(0x30, PacketPlayerAbilities::new);
-            clientBound.register(0x34, PacketPlayerPositionAndLook::new);
-            clientBound.register(0x1F, PacketKeepAlive::new);
-            clientBound.register(0x0E, PacketChatMessage::new);
-            clientBound.register(0x0C, PacketBossBar::new);
-            clientBound.register(0x32, PacketPlayerInfo::new);
-            clientBound.register(0x38, PacketSendResourcePack::new);
-            clientBound.register(0x19, PacketPlayDisconnect::new);
+            clientBound.register(0x12, PacketDeclareCommands::new);
+            clientBound.register(0x26, PacketJoinGame::new);
+            clientBound.register(0x32, PacketPlayerAbilities::new);
+            clientBound.register(0x38, PacketPlayerPositionAndLook::new);
+            clientBound.register(0x21, PacketKeepAlive::new);
+            clientBound.register(0x0F, PacketChatMessage::new);
+            clientBound.register(0x0D, PacketBossBar::new);
+            clientBound.register(0x36, PacketPlayerInfo::new);
+            clientBound.register(0x3C, PacketSendResourcePack::new);
+            clientBound.register(0x1A, PacketPlayDisconnect::new);
         }
     };
 

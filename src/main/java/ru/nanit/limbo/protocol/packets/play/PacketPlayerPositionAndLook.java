@@ -10,7 +10,7 @@ public class PacketPlayerPositionAndLook implements PacketOut {
     private double z;
     private float yaw;
     private float pitch;
-    private byte flags = 0x08;
+    private byte flags = 0x00;
     private int teleportId;
 
     public void setX(double x) {
@@ -50,6 +50,7 @@ public class PacketPlayerPositionAndLook implements PacketOut {
         msg.writeFloat(pitch);
         msg.writeByte(flags);
         msg.writeVarInt(teleportId);
+        msg.writeBoolean(false);
     }
 
 }

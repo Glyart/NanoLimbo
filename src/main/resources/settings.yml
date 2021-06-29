@@ -16,7 +16,7 @@ ping:
   version: 'NanoLimbo'
 
 # Available dimensions: OVERWORLD, NETHER, THE_END
-dimension: THE_END
+dimension: OVERWORLD
 
 # Spawn position in the world
 spawnPosition:
@@ -79,5 +79,7 @@ resourcePack:
   enabled: false
   url: ''
   hash: ''
+  forced: true
+  promtMessage: '{"text": "You''ve to accept the resource pack to join this server."}'
   declinedKickMessage: '{"text": "You''ve to accept the resource pack to enter this server.", "color": "red"}'
   

@@ -38,7 +38,6 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
     private static PreRenderedPacket PACKET_JOIN_GAME;
     private static PreRenderedPacket PACKET_PLAYER_ABILITIES;
     private static PreRenderedPacket PACKET_PLAYER_INFO;
-    private static PreRenderedPacket PACKET_DECLARE_COMMANDS;
     private static PreRenderedPacket PACKET_PLAYER_POS;
     private static PreRenderedPacket PACKET_JOIN_MESSAGE;
     private static PreRenderedPacket PACKET_BOSS_BAR;
@@ -201,7 +200,6 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
         writePacket(PACKET_PLAYER_ABILITIES);
         writePacket(PACKET_PLAYER_POS);
         writePacket(PACKET_PLAYER_INFO);
-        writePacket(PACKET_DECLARE_COMMANDS);
 
         if (PACKET_BOSS_BAR != null)
             writePacket(PACKET_BOSS_BAR);
@@ -327,22 +325,18 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
         positionAndLook.setZ(server.getConfig().getSpawnPosition().getZ());
         positionAndLook.setYaw(server.getConfig().getSpawnPosition().getYaw());
         positionAndLook.setPitch(server.getConfig().getSpawnPosition().getPitch());
-        positionAndLook.setTeleportId(ThreadLocalRandom.current().nextInt());
+        positionAndLook.setTeleportId(0);
 
         PacketPlayerInfo info = new PacketPlayerInfo();
         info.setUsername(username);
         info.setGameMode(server.getConfig().getGameMode());
         info.setUuid(uuid);
 
-        PacketDeclareCommands declareCommands = new PacketDeclareCommands();
-        declareCommands.setCommands(Collections.singletonList("limbo"));
-
         PACKET_LOGIN_SUCCESS = PreRenderedPacket.of(loginSuccess);
         PACKET_JOIN_GAME = PreRenderedPacket.of(joinGame);
         PACKET_PLAYER_ABILITIES = PreRenderedPacket.of(playerAbilities);
         PACKET_PLAYER_POS = PreRenderedPacket.of(positionAndLook);
         PACKET_PLAYER_INFO = PreRenderedPacket.of(info);
-        PACKET_DECLARE_COMMANDS = PreRenderedPacket.of(declareCommands);
 
         if (server.getConfig().isUseJoinMessage()){
             PacketChatMessage joinMessage = new PacketChatMessage();
@@ -363,6 +357,8 @@ public class ClientConnection extends ChannelInboundHandlerAdapter {
             PacketSendResourcePack resourcePack = new PacketSendResourcePack();
             resourcePack.setUrl(server.getConfig().getResourcePackURL());
             resourcePack.setHash(server.getConfig().getResourcePackHash());
+            resourcePack.setForced(server.getConfig().isForcedResourcePack());
+            resourcePack.setMessage(server.getConfig().getPromptMessage());
             PACKET_SEND_RESOURCE_PACK = PreRenderedPacket.of(resourcePack);
         }
     }

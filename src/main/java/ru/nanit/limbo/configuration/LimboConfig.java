@@ -37,6 +37,8 @@ public final class LimboConfig {
     private boolean enabledResourcePack;
     private String resourcePackURL;
     private String resourcePackHash;
+    private boolean forcedResourcePack;
+    private String promptMessage;
     private String declinedKickMessage;
 
     public LimboConfig(Path root){
@@ -76,6 +78,8 @@ public final class LimboConfig {
         enabledResourcePack = conf.getNode("resourcePack", "enabled").getBoolean(false);
         resourcePackURL = conf.getNode("resourcePack", "url").getString("");
         resourcePackHash = conf.getNode("resourcePack", "hash").getString("");
+        forcedResourcePack = conf.getNode("resourcePack", "forced").getBoolean(false);
+        promptMessage = conf.getNode("resourcePack", "prompt").getString("");
         declinedKickMessage = conf.getNode("resourcePack", "declinedKickMessage").getString("");
     }
 
@@ -153,6 +157,14 @@ public final class LimboConfig {
 
     public String getResourcePackHash() {
         return resourcePackHash;
+    }
+
+    public String getPromptMessage() {
+        return promptMessage;
+    }
+
+    public boolean isForcedResourcePack() {
+        return forcedResourcePack;
     }
 
     public String getDeclinedKickMessage() {
