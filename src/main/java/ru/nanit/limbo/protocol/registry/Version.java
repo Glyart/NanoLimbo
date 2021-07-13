@@ -32,7 +32,8 @@ public enum Version {
     V1_16_2(751),
     V1_16_3(753),
     V1_16_4(754),
-    V1_17(755);
+    V1_17(755),
+    V1_17_1(756);
 
     public static final Map<Integer, Version> VERSION_MAP;
 
@@ -45,7 +46,7 @@ public enum Version {
     }
 
     public static Version getCurrentSupported(){
-        return V1_17;
+        return V1_17_1;
     }
 
     public static Version of(int protocolNumber){
